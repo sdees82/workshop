@@ -1,22 +1,72 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Amazon Ember";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/fonts/amazon-ember-300.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Amazon Ember";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/amazon-ember-400.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Amazon Ember";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/amazon-ember-400-italic.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Amazon Ember";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/amazon-ember-700.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Amazon Ember";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("/fonts/amazon-ember-900.woff") format("woff");
+}
+
 :root {
   --page: #ffffff;
   --surface: #ffffff;
-  --surface-muted: #f2f3f3;
+  --surface-muted: #f8f8f8;
   --surface-hover: #eaeded;
-  --text: #16191f;
-  --text-muted: #545b64;
+  --text: #0f141a;
+  --text-muted: #424650;
+  --text-subtle: #656871;
   --border: #aab7b8;
-  --border-soft: #d5dbdb;
-  --link: #0073bb;
-  --link-hover: #004b91;
-  --header: #161e2d;
+  --border-soft: #c6c6cd;
+  --link: #006ce0;
+  --link-hover: #002b66;
+  --header: #161d26;
+  --header-border: #424650;
   --footer: #232f3e;
+  --footer-text: #ebebf0;
+  --footer-link: #f9f9fa;
   --primary: #0073bb;
   --primary-hover: #005b94;
   --orange: #ff9900;
-  --sidebar-width: 280px;
+  --orange-hover: #fa6f00;
+  --button-normal-hover-bg: #f0fbff;
+  --info-surface: #f0fbff;
+  --warning-accent: #855900;
+  --warning-surface: #fffef0;
+  --sidebar-width: 281px;
+  --topbar-height: 57px;
 }
 
 :root[data-theme="dark"] {
@@ -44,9 +94,10 @@ body {
   margin: 0;
   background: var(--page);
   color: var(--text);
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: "Amazon Ember", "Helvetica Neue", Roboto, Arial, sans-serif;
   font-size: 14px;
-  line-height: 1.5;
+  font-weight: 400;
+  line-height: 20px;
 }
 
 a {
@@ -67,7 +118,7 @@ button {
 .site-shell {
   min-height: 100vh;
   display: grid;
-  grid-template-rows: 56px minmax(0, 1fr) auto;
+  grid-template-rows: var(--topbar-height) minmax(0, 1fr) auto;
   background: var(--page);
 }
 
@@ -75,12 +126,12 @@ button {
   position: sticky;
   top: 0;
   z-index: 50;
-  height: 56px;
+  height: var(--topbar-height);
   display: flex;
   align-items: center;
-  padding: 0 28px;
+  padding: 0 24px 0 32px;
   background: var(--header);
-  border-bottom: 1px solid #3c4657;
+  border-bottom: 1px solid var(--header-border);
 }
 
 .brand {
@@ -92,21 +143,22 @@ button {
 .brand img {
   display: block;
   width: 167px;
-  height: 20px;
+  height: 24px;
+  padding: 2px 0;
   object-fit: contain;
   object-position: left center;
 }
 
 .settings-button {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 56px;
   margin-left: auto;
-  padding: 0;
+  padding: 1px 8px;
   border: 0;
-  border-radius: 2px;
+  border-radius: 0;
   background: transparent;
-  color: #fff;
-  font-size: 19px;
+  color: #dedee3;
+  font-size: 16px;
   cursor: pointer;
 }
 
@@ -141,24 +193,32 @@ button {
   grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
 }
 
+.workspace.is-collapsed {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.workspace.is-collapsed .sidebar {
+  display: none;
+}
+
 .sidebar {
   position: sticky;
-  top: 56px;
-  height: calc(100vh - 56px);
+  top: var(--topbar-height);
+  height: calc(100vh - var(--topbar-height));
   z-index: 30;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
   background: var(--surface);
   border-right: 1px solid var(--border-soft);
+  scrollbar-width: thin;
 }
 
 .sidebar-title {
-  min-height: 85px;
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  padding: 22px 24px 18px 28px;
+  gap: 12px;
+  padding: 20px 16px 20px 28px;
   border-bottom: 1px solid var(--border-soft);
 }
 
@@ -167,35 +227,64 @@ button {
   color: var(--text);
   font-size: 18px;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 22px;
+  letter-spacing: -0.18px;
   text-decoration: none;
 }
 
+.sidebar-title a:hover {
+  color: var(--link);
+}
+
 .sidebar-title button {
-  width: 26px;
-  height: 28px;
+  width: 28px;
+  height: 32px;
   padding: 0;
   border: 0;
+  border-radius: 20px;
   background: transparent;
   color: var(--text-muted);
-  font-size: 31px;
-  line-height: 22px;
+  font-size: 24px;
+  line-height: 1;
   cursor: pointer;
 }
 
 .side-nav {
-  flex: 1;
-  overflow-y: auto;
-  padding: 19px 10px 24px;
-  scrollbar-width: thin;
+  padding: 16px 16px 28px 10px;
+}
+
+/* Floating toggle shown when the navigation drawer is collapsed. */
+.nav-open-button {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 20;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--text-muted);
+  color: #fff;
+  cursor: pointer;
+}
+
+.nav-open-button span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  margin: 2px 0;
+  background: currentColor;
 }
 
 .nav-group {
-  margin: 1px 0;
+  margin: 0;
 }
 
 .nav-row {
-  min-height: 27px;
+  min-height: 28px;
   display: flex;
   align-items: flex-start;
 }
@@ -203,72 +292,106 @@ button {
 .nav-row > a,
 .nav-children a {
   display: block;
-  color: var(--text);
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: var(--text-muted);
   font-size: 14px;
-  line-height: 21px;
+  line-height: 20px;
+  letter-spacing: -0.08px;
   text-decoration: none;
 }
 
 .nav-row > a {
   flex: 1;
   min-width: 0;
-  padding: 2px 4px 3px 1px;
 }
 
 .nav-row > a:hover,
 .nav-children a:hover {
-  color: var(--link-hover);
-  text-decoration: underline;
+  color: var(--link);
+  text-decoration: none;
 }
 
 .nav-row > a.active,
 .nav-children a.active {
   color: var(--link);
   font-weight: 700;
+  letter-spacing: normal;
 }
 
 .nav-toggle,
 .nav-spacer {
-  width: 17px;
-  flex: 0 0 17px;
+  width: 10px;
+  flex: 0 0 10px;
   margin: 0;
 }
 
 .nav-toggle {
-  height: 27px;
+  height: 28px;
   padding: 1px 0 0;
   border: 0;
   background: transparent;
   cursor: pointer;
 }
 
+/* The caret path always points down; the wrapper rotates it, as on the
+   hosted site (collapsed = -90deg, expanded = 0). */
 .nav-chevron {
-  display: inline-block;
+  display: block;
   color: var(--text-muted);
-  font-size: 10px;
-  transform-origin: 45% 52%;
+  transform: rotate(-90deg);
+  transform-origin: 8px 10px;
   transition: transform 120ms ease;
 }
 
 .nav-chevron.is-open {
-  transform: rotate(90deg);
+  transform: rotate(0deg);
+}
+
+.nav-chevron svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+/* Outline icons: breadcrumb separator, drawer close, external link. */
+.crumb-separator svg,
+.sidebar-title button svg,
+.catalog-link svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.catalog-link svg {
+  display: inline-block;
+  vertical-align: -3px;
+}
+
+.sidebar-title button svg {
+  margin: 0 auto;
 }
 
 .nav-children {
   display: grid;
   gap: 1px;
-  padding: 1px 4px 5px 29px;
-}
-
-.nav-children a {
-  padding: 2px 0;
+  padding: 1px 0 5px 22px;
 }
 
 .catalog-link {
   display: block;
-  padding: 16px 30px 18px;
+  margin-top: 10px;
+  padding: 16px 24px 18px 32px;
   border-top: 1px solid var(--border-soft);
-  color: var(--text);
+  color: var(--text-muted);
   line-height: 20px;
   text-decoration: none;
 }
@@ -279,14 +402,19 @@ button {
 }
 
 .main-panel {
+  position: relative;
   min-width: 0;
   background: var(--page);
 }
 
 .content-frame {
   width: 100%;
-  max-width: 1200px;
   padding: 20px 24px 58px;
+}
+
+/* Leaves room for the floating navigation toggle. */
+.workspace.is-collapsed .content-frame {
+  padding-left: 60px;
 }
 
 .breadcrumbs {
@@ -294,8 +422,8 @@ button {
   align-items: center;
   flex-wrap: wrap;
   gap: 0;
-  min-height: 25px;
-  margin-bottom: 14px;
+  min-height: 20px;
+  margin-bottom: 18px;
   color: var(--text-muted);
 }
 
@@ -306,17 +434,18 @@ button {
 }
 
 .breadcrumbs strong {
-  color: var(--text-muted);
+  color: var(--text-subtle);
 }
 
 .crumb-separator {
-  display: inline-block;
-  margin: 0 12px;
-  color: #879596;
-  font-size: 26px;
-  font-weight: 400;
-  line-height: 16px;
-  vertical-align: -2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 20px;
+  margin: 0 8px;
+  color: #8c8c94;
+  vertical-align: top;
 }
 
 .workshop-article {
@@ -324,8 +453,8 @@ button {
 }
 
 .article-header {
-  margin-bottom: 19px;
-  padding-bottom: 17px;
+  margin-bottom: 0;
+  padding-bottom: 20px;
   border-bottom: 1px solid var(--border-soft);
 }
 
@@ -333,54 +462,63 @@ button {
   margin: 0;
   color: var(--text);
   font-size: 32px;
-  font-weight: 500;
-  letter-spacing: -0.3px;
-  line-height: 1.25;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 40px;
 }
 
+/* Matches the hosted site: the container stays at 14px/20px and only block
+   text steps up to 16px/24px, so alerts and code blocks inherit 14px. */
 .markdown-content {
   color: var(--text);
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-.markdown-content > :first-child {
-  margin-top: 0;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .markdown-content p {
-  margin: 0 0 18px;
+  margin: 20px 0;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .markdown-content h2,
 .markdown-content h3,
 .markdown-content h4 {
+  margin: 0;
+  padding: 4px 0;
   color: var(--text);
   font-weight: 700;
-  letter-spacing: -0.2px;
 }
 
 .markdown-content h2 {
-  margin: 22px 0 18px;
   font-size: 28px;
-  line-height: 1.3;
+  line-height: 34px;
+  letter-spacing: -0.42px;
 }
 
 .markdown-content h3 {
-  margin: 21px 0 13px;
-  font-size: 21px;
-  line-height: 1.35;
+  font-size: 24px;
+  line-height: 30px;
+  letter-spacing: -0.24px;
 }
 
 .markdown-content h4 {
-  margin: 18px 0 10px;
-  font-size: 17px;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.1px;
 }
 
 [class*="SectionHeading-module_headingLinkContainer"] {
   position: relative;
-  display: flex;
-  align-items: center;
+  display: block;
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* Leading heading in a block sits flush with the top. */
+[class*="SectionHeading-module_headingLinkContainer"]:first-child {
+  margin-top: 0;
 }
 
 [class*="SectionHeading-module_headingLink"] {
@@ -389,14 +527,17 @@ button {
 }
 
 [class*="SectionHeading-module_headingAnchorIcon"] {
-  visibility: hidden;
+  display: none;
   margin: 6px 0 0 8px;
   color: var(--link);
 }
 
 [class*="SectionHeading-module_headingLinkContainer"]:hover
   [class*="SectionHeading-module_headingAnchorIcon"] {
-  visibility: visible;
+  display: inline-block;
+  position: absolute;
+  top: 4px;
+  right: 0;
 }
 
 [class*="SectionHeading-module_headingAnchorIcon"] svg,
@@ -408,84 +549,138 @@ button {
   stroke-width: 2;
 }
 
+/* Tailwind preflight makes every svg display: block, which pushes inline icons
+   (e.g. the external-link glyph) onto their own line. The hosted site keeps the
+   wrapper inline-flex so the icon rides along with the text. */
+.markdown-content [class*="awsui_icon-flex-height"] {
+  display: inline-flex;
+  align-items: center;
+  height: 1.5em;
+  vertical-align: top;
+}
+
 .markdown-content a {
   color: var(--link);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration: none;
+  text-underline-offset: 4px;
 }
 
 .markdown-content a:hover {
   color: var(--link-hover);
+  text-decoration: underline;
 }
 
-.markdown-content ul,
-.markdown-content ol {
-  margin: 0 0 18px;
-  padding-left: 26px;
+/* :not([class]) keeps these off Cloudscape component lists (tab headers etc.),
+   which carry their own classes and must not pick up markers or indentation. */
+.markdown-content ul:not([class]),
+.markdown-content ol:not([class]) {
+  margin: 20px 0;
+  padding-left: 20px;
+  font-size: 16px;
+  line-height: 24px;
 }
 
-.markdown-content li {
-  margin: 4px 0;
-  padding-left: 1px;
+/* Tailwind preflight resets ol/ul to list-style: none — restore the markers. */
+.markdown-content ul:not([class]) {
+  list-style: disc outside;
+}
+
+.markdown-content ol:not([class]) {
+  list-style: decimal outside;
+}
+
+/* :not([class]) again — component list items (tab headers) carry classes and
+   must not pick up content-list spacing. */
+.markdown-content li:not([class]) {
+  margin: 0;
+  padding: 0;
+}
+
+.markdown-content li:not([class]) + li:not([class]) {
+  padding-top: 4px;
+}
+
+/* Loose lists wrap each item in <p>; the hosted site zeroes those margins so
+   items stay one line apart instead of gaining 40px each. */
+.markdown-content li:not([class]) > p {
+  margin: 0;
+}
+
+.markdown-content li:not([class]) > p + p {
+  margin-top: 12px;
+}
+
+.markdown-content strong,
+.markdown-content b {
+  font-family: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .markdown-content code[data-inline="true"],
 .markdown-content p code,
 .markdown-content td code,
 .markdown-content li code {
-  padding: 1px 4px;
+  padding: 1.4px 2.1px;
   border-radius: 2px;
-  background: var(--surface-muted);
-  color: var(--text);
-  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
-  font-size: 0.92em;
+  background: #f8f8f8;
+  color: #0f141a;
+  font-family: Monaco, Menlo, Consolas, "Courier Prime", Courier, "Courier New",
+    monospace;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.07px;
   overflow-wrap: anywhere;
 }
 
 [class*="CodeBlock-module_codeBlock"] {
   position: relative;
-  margin: 0 0 19px;
-  border: 1px solid var(--border-soft);
-  border-radius: 2px;
-  background: #f7f7f7;
+  margin: 20px 0;
+  border: 0;
+  border-radius: 8px;
+  background: #f8f8f8;
+  font-size: 14px;
+  line-height: 20px;
   overflow: hidden;
 }
 
+/* The copied markup carries an inline style on <pre> (padding: 1em,
+   line-height: 1.5), so these need !important to win. */
 [class*="CodeBlock-module_codeBlock"] pre {
   max-width: 100%;
-  min-height: 47px;
-  background: #f7f7f7 !important;
-  color: #16191f !important;
-}
-
-[class*="CodeBlock-module_codeBlock"] pre code {
-  color: #16191f;
+  margin: 0 !important;
+  padding: 20px !important;
+  background: transparent !important;
+  line-height: 20px !important;
+  overflow-x: auto;
 }
 
 [class*="CodeBlock-module_codeBlock"] [class*="CodeBlock-module_copyAction"] {
   position: absolute;
-  top: 7px;
-  right: 7px;
+  top: 15px;
+  right: 15px;
 }
 
 [class*="CodeBlock-module_codeBlock"] button[aria-label="Copy content"],
 [class*="CodeBlock-module_codeBlock"] button[aria-label="Copied"] {
-  width: 33px;
-  height: 31px;
+  width: 34px;
+  height: 32px;
   display: grid;
   place-items: center;
   padding: 0;
-  border: 1px solid #879596;
-  border-radius: 2px;
-  background: #fff;
-  color: #16191f;
+  border: 2px solid var(--link);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--link);
   cursor: pointer;
 }
 
 [class*="CodeBlock-module_codeBlock"] button:hover,
 [class*="CodeBlock-module_codeBlock"] button.copied {
-  border-color: var(--link);
-  color: var(--link);
+  border-color: var(--link-hover);
+  background: var(--button-normal-hover-bg);
+  color: var(--link-hover);
 }
 
 [class*="CodeBlock-module_codeBlock"] button svg {
@@ -493,96 +688,155 @@ button {
   height: 16px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.5;
+  stroke-width: 2;
 }
 
 [class*="Table-module_table"] {
+  box-sizing: content-box;
+  width: fit-content;
   max-width: 100%;
-  margin: 0 0 21px;
+  margin: 20px 0;
+  padding: 4px 20px;
+  border: 1px solid #c6c6cd;
+  border-radius: 16px;
   overflow-x: auto;
 }
 
 .markdown-content table {
-  width: 100%;
-  border-collapse: collapse;
+  width: auto;
+  border-collapse: separate;
   border-spacing: 0;
   font-size: 14px;
-  line-height: 1.45;
+  line-height: 20px;
 }
 
 .markdown-content th,
 .markdown-content td {
-  padding: 9px 12px;
-  border: 1px solid var(--border-soft);
-  text-align: left;
-  vertical-align: top;
+  border: 0;
+  white-space: pre-line;
 }
 
 .markdown-content th {
-  background: var(--surface-muted);
+  padding: 8px 20px;
+  border-bottom: 1px solid #c6c6cd;
+  background: transparent;
+  color: var(--text-muted);
   font-weight: 700;
+  text-align: center;
+  vertical-align: bottom;
 }
 
+.markdown-content td {
+  padding: 10px 20px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.markdown-content tbody > tr:not(:last-child) > td {
+  border-bottom: 1px solid #ebebf0;
+}
+
+/* The hosted site styles the inner awsui alert box, not the outer wrapper. */
 [class*="Alert-module_alert"] {
-  position: relative;
-  margin: 0 0 20px;
-  padding: 16px 18px 15px 46px;
-  border: 1px solid #87bde5;
-  border-left: 5px solid #0073bb;
-  border-radius: 2px;
-  background: color-mix(in srgb, var(--surface) 90%, #e9f4fb);
+  margin: 20px 0;
+}
+
+[class*="awsui_alert_mx3cw"] {
+  display: flex;
+  padding: 8px 16px;
+  border: 2px solid var(--link);
+  border-radius: 12px;
+  background: var(--info-surface);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 20px;
 }
 
 [class*="awsui_type-warning"] {
-  border-color: #ffb64d;
-  border-left-color: #ff9900;
-  background: color-mix(in srgb, var(--surface) 90%, #fff3d6);
+  border-color: var(--warning-accent);
+  background: var(--warning-surface);
 }
 
-[class*="Alert-module_alert"] [class*="awsui_icon_mx3cw"] {
-  position: absolute;
-  top: 17px;
-  left: 15px;
-  color: #0073bb;
+[class*="alert-wrapper"] {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}
+
+[class*="alert-focus-wrapper"] {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+[class*="awsui_alert_mx3cw"] [class*="awsui_icon_mx3cw"] {
+  flex: 0 0 16px;
+  margin: 6px 0;
+  padding: 2px 0;
+  color: var(--link);
+}
+
+[class*="awsui_message_mx3cw"] {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 0;
 }
 
 [class*="awsui_type-warning"] [class*="awsui_icon_mx3cw"] {
-  color: #b05a00;
+  color: var(--warning-accent);
 }
 
-[class*="Alert-module_alert"] [class*="awsui_header_mx3cw"] {
-  margin-bottom: 4px;
-  font-size: 16px;
-  font-weight: 700;
-}
-
-[class*="Alert-module_alert"] [class*="awsui_content_mx3cw"] > :last-child {
+[class*="awsui_alert_mx3cw"] [class*="awsui_header_mx3cw"] {
   margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
 }
 
+[class*="awsui_alert_mx3cw"] [class*="awsui_content_mx3cw"] p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+[class*="awsui_alert_mx3cw"] [class*="awsui_content_mx3cw"] p + p {
+  margin-top: 12px;
+}
+
+/* Tailwind preflight gives hr a currentColor border — set it explicitly or the
+   rule paints in the text colour instead of the divider grey. */
 [class*="HorizontalRule-module_horizontalRule"] {
-  height: 1px;
-  margin: 26px 0;
-  background: var(--border-soft);
+  height: 0;
+  margin: 20px 0;
+  border: 0;
+  border-top: 1px solid var(--border-soft);
+  background: none;
 }
 
-[class*="Image-module_imageContainer"],
+[class*="Image-module_imageContainer"] {
+  display: inline-block;
+  max-width: 100%;
+  text-align: center;
+}
+
 [class*="Image-module_imageWrapper"] {
   max-width: 100%;
 }
 
+/* The hosted site leaves images inline with no margins — the wrapping <p>
+   supplies the vertical rhythm. Preflight's img { display: block } would
+   otherwise combine with auto margins and add 40px per image. */
 .markdown-content img {
-  display: block;
+  display: inline;
   max-width: 100%;
   height: auto;
-  margin: 20px auto;
+  margin: 0;
 }
 
 [class*="Mermaid-module_mermaidContainer"] {
-  max-width: 100%;
   margin: 20px 0;
-  overflow-x: auto;
-  background: #fff;
 }
 
 [class*="Mermaid-module_mermaidContainer"] svg {
@@ -593,79 +847,151 @@ button {
 }
 
 [class*="Tabs-module_tabs"] {
-  margin: 0 0 21px;
+  margin: 20px 0;
+  border: 0;
+  border-radius: 0;
+}
+
+/* The outline lives on the Cloudscape container root nested inside the Tabs
+   module, not on the module itself. Scoped to a direct child because bare
+   awsui_root is used ~845 times across the corpus. */
+[class*="Tabs-module_tabs"] > [class*="awsui_root"] {
   border: 1px solid var(--border-soft);
-  border-radius: 2px;
+  border-radius: 16px;
+}
+
+/* The divider sits on the header, not the list. */
+[class*="awsui_tabs-header-with-divider"] {
+  border-bottom: 1px solid var(--border-soft);
 }
 
 [class*="awsui_tabs-header-list"] {
   display: flex;
   gap: 0;
   margin: 0;
-  padding: 0 12px;
-  border-bottom: 1px solid var(--border-soft);
+  padding: 0;
+  border-bottom: 0;
   list-style: none;
 }
 
+[class*="awsui_tabs-tab-header-container"] {
+  position: relative;
+  padding: 1px 7px 0;
+  border-bottom: 1px solid transparent;
+}
+
+/* Active tab indicator: a 4px bar overlapping the header divider. Anchored via
+   :has() because the active class sits on the button, not the container —
+   matching the class directly would paint a second bar on the button. */
+[class*="awsui_tabs-tab-header-container"]:has([class*="awsui_tabs-tab-active"])::after {
+  content: "";
+  position: absolute;
+  right: 1px;
+  bottom: -1px;
+  left: 0;
+  height: 4px;
+  background: var(--link);
+}
+
+[class*="awsui_tabs-tab-link"]::after {
+  content: none;
+}
+
 [class*="awsui_tabs-tab-link"] {
-  display: block;
-  padding: 12px 14px 9px;
-  border-bottom: 3px solid transparent;
+  display: flex;
+  padding: 7px 4px 7px 3px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 700;
   text-decoration: none !important;
+  cursor: pointer;
+}
+
+[class*="awsui_tabs-tab-label"] {
+  display: flex;
+  padding: 4px 8px;
 }
 
 [class*="awsui_tabs-tab-active"] [class*="awsui_tabs-tab-link"] {
-  border-bottom-color: var(--primary);
-  color: var(--text);
-  font-weight: 700;
+  color: var(--link);
 }
 
-[class*="Tabs-module_content"],
+/* Padding belongs on the awsui panel only — Tabs-module_content is nested
+   inside it, so styling both would double the inset to 40px a side. */
 [class*="awsui_tabs-content"] {
-  padding: 16px;
+  padding: 12px 20px 20px;
+}
+
+/* Both tabpanels are present in the copied markup; only the active one is
+   shown. Without this the inactive panel renders as an empty 32px strip. */
+[class*="awsui_tabs-content"]:not([class*="awsui_tabs-content-active"]) {
+  display: none;
+}
+
+[class*="Tabs-module_content"] {
+  padding: 0;
+}
+
+/* Block rhythm inside a tab panel is 16px, not the 20px used at page level. */
+[class*="Tabs-module_content"] p,
+[class*="Tabs-module_content"] ul:not([class]),
+[class*="Tabs-module_content"] ol:not([class]) {
+  margin: 16px 0;
+}
+
+[class*="Tabs-module_content"] > :last-child {
+  margin-bottom: 0;
 }
 
 .page-navigation {
   display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 35px;
-  padding-top: 22px;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 20px 0;
   border-top: 1px solid var(--border-soft);
 }
 
 .primary-button,
 .secondary-button {
-  min-width: 78px;
-  min-height: 36px;
+  min-height: 32px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 18px;
-  border-radius: 2px;
+  padding: 4px 20px;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 20px;
   font-weight: 700;
+  letter-spacing: 0.07px;
   text-decoration: none;
 }
 
 .primary-button {
-  border: 1px solid var(--primary);
-  background: var(--primary);
-  color: #fff;
-}
-
-.primary-button:hover {
-  background: var(--primary-hover);
-}
-
-.secondary-button {
-  border: 1px solid #879596;
-  background: var(--surface);
+  border-color: var(--orange);
+  background: var(--orange);
   color: var(--text);
 }
 
+.primary-button:hover {
+  border-color: var(--orange-hover);
+  background: var(--orange-hover);
+  color: var(--text);
+}
+
+.secondary-button {
+  border-color: var(--link);
+  background: var(--surface);
+  color: var(--link);
+}
+
 .secondary-button:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+  border-color: var(--link-hover);
+  background: var(--button-normal-hover-bg);
+  color: var(--link-hover);
 }
 
 .primary-button.disabled,
@@ -675,25 +1001,27 @@ button {
 }
 
 .site-footer {
-  position: relative;
+  position: sticky;
+  bottom: 0;
   z-index: 40;
-  min-height: 41px;
+  min-height: 40px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   flex-wrap: wrap;
-  gap: 18px;
-  padding: 10px 28px;
+  gap: 20px;
+  padding: 12px 20px;
   background: var(--footer);
-  color: #fff;
+  color: var(--footer-text);
   font-size: 12px;
-  line-height: 18px;
+  line-height: 16px;
+  letter-spacing: 0.06px;
 }
 
 .footer-links {
   display: inline-flex;
   align-items: center;
-  gap: 22px;
+  gap: 20px;
 }
 
 .footer-links a,
@@ -701,7 +1029,7 @@ button {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #fff;
+  color: var(--footer-link);
   text-decoration: underline;
   cursor: pointer;
 }
@@ -714,23 +1042,25 @@ button {
   left: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 240px;
-  gap: 40px;
-  padding: 25px 40px;
+  gap: 45px;
+  padding: 30px 45px 30px 40px;
   background: rgba(23, 34, 52, 0.98);
   box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.25);
   color: #fff;
 }
 
 .cookie-banner h2 {
-  margin: 0 0 1px;
-  font-size: 20px;
+  margin: 0 0 5px;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 21px;
 }
 
 .cookie-banner p {
-  max-width: 920px;
-  margin: 0 0 14px;
+  margin: 0 0 15px;
+  color: #eaeded;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 21px;
 }
 
 .cookie-actions {
@@ -740,36 +1070,25 @@ button {
 }
 
 .cookie-actions button {
-  min-height: 33px;
-  border: 1px solid #eaeded;
+  min-height: 32px;
+  border: 1px solid #545b64;
+  border-radius: 2px;
   background: #fff;
-  color: #16191f;
+  color: #545b64;
   font-weight: 700;
   cursor: pointer;
 }
 
 .cookie-actions button.accept {
-  border-color: #ff9900;
-  background: #ff9900;
+  border-color: var(--orange);
+  background: var(--orange);
 }
 
 .drawer-backdrop {
   display: none;
 }
 
-@media (min-width: 1440px) {
-  .content-frame {
-    max-width: 1280px;
-    padding-right: 40px;
-    padding-left: 40px;
-  }
-}
-
 @media (max-width: 900px) {
-  .site-shell {
-    grid-template-rows: 56px minmax(0, 1fr) auto;
-  }
-
   .topbar {
     padding: 0 16px;
   }
@@ -778,22 +1097,37 @@ button {
     display: block;
   }
 
+  /* The topbar hamburger drives the drawer at this width. */
+  .nav-open-button {
+    display: none;
+  }
+
+  .workspace.is-collapsed .content-frame {
+    padding-left: 20px;
+  }
+
   .brand img {
     width: 153px;
     height: auto;
   }
 
-  .workspace {
+  .workspace,
+  .workspace.is-collapsed {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The drawer is driven by .is-open here, not by the desktop collapse state. */
+  .workspace.is-collapsed .sidebar {
+    display: flex;
   }
 
   .sidebar {
     position: fixed;
-    top: 56px;
+    top: var(--topbar-height);
     bottom: 0;
     left: 0;
     width: min(88vw, 320px);
-    height: calc(100vh - 56px);
+    height: calc(100vh - var(--topbar-height));
     box-shadow: 4px 0 18px rgba(0, 0, 0, 0.25);
     transform: translateX(-104%);
     transition: transform 180ms ease;
@@ -806,10 +1140,10 @@ button {
   .drawer-backdrop {
     position: fixed;
     z-index: 25;
-    inset: 56px 0 0;
+    inset: var(--topbar-height) 0 0;
     display: block;
     width: 100%;
-    height: calc(100vh - 56px);
+    height: calc(100vh - var(--topbar-height));
     padding: 0;
     border: 0;
     background: rgba(0, 0, 0, 0.48);
@@ -842,7 +1176,9 @@ button {
     font-size: 25px;
   }
 
-  .markdown-content {
+  .markdown-content p,
+  .markdown-content ul:not([class]),
+  .markdown-content ol:not([class]) {
     font-size: 15px;
   }
 

@@ -18,10 +18,26 @@ type WorkshopShellProps = {
   next: AdjacentPage;
 };
 
+// Icon paths lifted from the hosted site's Cloudscape icon set (16x16 grid).
+const ICON_PATHS = {
+  caretDown: "m8 11 4-6H4l4 6Z",
+  angleRight: "m5 2 6 6-6 6",
+  angleLeft: "M11 2 5 8l6 6",
+  externalLink: "M13 9.012v-6H7M13.02 3 7 9.01M3 5.012v8h8.01",
+} as const;
+
+function Icon({ name }: { name: keyof typeof ICON_PATHS }) {
+  return (
+    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+      <path d={ICON_PATHS[name]} />
+    </svg>
+  );
+}
+
 function Chevron({ open }: { open: boolean }) {
   return (
     <span className={`nav-chevron ${open ? "is-open" : ""}`} aria-hidden="true">
-      ▶
+      <Icon name="caretDown" />
     </span>
   );
 }
@@ -35,6 +51,7 @@ export default function WorkshopShell({
   next,
 }: WorkshopShellProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(true);
   const [cookieVisible, setCookieVisible] = useState(false);
   const [dark, setDark] = useState(false);
   const [expanded, setExpanded] = useState<Record<string, boolean>>(() =>
@@ -129,7 +146,7 @@ export default function WorkshopShell({
         </button>
       </header>
 
-      <div className="workspace">
+      <div className={`workspace ${navOpen ? "" : "is-collapsed"}`}>
         {drawerOpen && (
           <button
             className="drawer-backdrop"
@@ -142,8 +159,14 @@ export default function WorkshopShell({
             <Link href="/" onClick={() => setDrawerOpen(false)}>
               {workshopTitle}
             </Link>
-            <button aria-label="Close navigation drawer" onClick={() => setDrawerOpen(false)}>
-              ‹
+            <button
+              aria-label="Close navigation drawer"
+              onClick={() => {
+                setDrawerOpen(false);
+                setNavOpen(false);
+              }}
+            >
+              <Icon name="angleLeft" />
             </button>
           </div>
           <nav className="side-nav" aria-label="Workshop lessons">
@@ -203,17 +226,30 @@ export default function WorkshopShell({
             target="_blank"
             rel="noreferrer"
           >
-            Workshop catalog in AWS Builder Center ↗
+            Workshop catalog in AWS Builder Center <Icon name="externalLink" />
           </a>
         </aside>
 
         <main className="main-panel">
+          {!navOpen && (
+            <button
+              className="nav-open-button"
+              aria-label="Open navigation drawer"
+              onClick={() => setNavOpen(true)}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+          )}
           <div className="content-frame">
             <nav className="breadcrumbs" aria-label="Breadcrumbs">
               <Link href="/">{workshopTitle}</Link>
               {breadcrumbs.map((crumb, index) => (
                 <span key={`${crumb.path}-${index}`}>
-                  <span className="crumb-separator">›</span>
+                  <span className="crumb-separator" aria-hidden="true">
+                    <Icon name="angleRight" />
+                  </span>
                   {index === breadcrumbs.length - 1 ? (
                     <strong>{crumb.title}</strong>
                   ) : (
