@@ -63,7 +63,7 @@ export async function generateMetadata({
   const page = pageByPath.get(pathFromSlug(slug));
   return {
     title: page ? `${page.title} - AI-Powered SDLC with Claude Code` : "Workshop Studio",
-    description: "AI-Powered SDLC with Claude Code workshop",
+    description: "A focused two-hour AI-Powered SDLC with Claude Code workshop",
   };
 }
 

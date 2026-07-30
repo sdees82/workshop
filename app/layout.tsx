@@ -13,14 +13,16 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(origin),
     title: "AI-Powered SDLC with Claude Code",
-    description: "A hands-on workshop for applying Claude Code across the software lifecycle.",
+    description:
+      "A focused two-hour workshop for applying Claude Code across the software lifecycle.",
     icons: {
-      icon: "/assets/workshop-studio.png",
+      icon: "/favicon.ico",
     },
     openGraph: {
       type: "website",
       title: "AI-Powered SDLC with Claude Code",
-      description: "A hands-on workshop for applying Claude Code across the software lifecycle.",
+      description:
+        "A focused two-hour workshop for applying Claude Code across the software lifecycle.",
       images: [
         {
           url: `${origin}/og.png`,
@@ -33,7 +35,8 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "AI-Powered SDLC with Claude Code",
-      description: "A hands-on workshop for applying Claude Code across the software lifecycle.",
+      description:
+        "A focused two-hour workshop for applying Claude Code across the software lifecycle.",
       images: [`${origin}/og.png`],
     },
   };
